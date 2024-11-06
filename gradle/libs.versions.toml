@@ -16,7 +16,7 @@ constraintLayout =      "1.1.0"
 firebaseBom =           "33.5.1"
 appcompat = "1.7.0"
 material = "1.12.0"
-commons = "1.0.12"
+commons = "1.0.0"
 
 [libraries]
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
