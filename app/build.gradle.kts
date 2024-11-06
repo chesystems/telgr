@@ -73,4 +73,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.commons)
+    implementation(project(":telgr_model"))
 }
