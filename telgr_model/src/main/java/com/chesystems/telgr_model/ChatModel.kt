@@ -1,21 +1,24 @@
 package com.chesystems.telgr_model
 
-import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
 class ChatViewModel : ViewModel() {
     private val chatRepository = ChatRepository()
     
-    private val _messages = mutableStateOf<List<Message>>(emptyList())
-    val messages: State<List<Message>> = _messages
+    private val _messages = mutableStateListOf<Message>()
+    val messages: List<Message>
+        get() = _messages
 
     private val _sendMessageStatus = mutableStateOf<Boolean?>(null)
-    val sendMessageStatus: State<Boolean?> = _sendMessageStatus
+    val sendMessageStatus: Boolean?
+        get() = _sendMessageStatus.value
 
     fun loadMessages(groupId: String) {
         chatRepository.getMessagesForGroup(groupId) { messagesList ->
-            _messages.value = messagesList
+            _messages.clear()
+            _messages.addAll(messagesList)
         }
     }
 
