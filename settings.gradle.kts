@@ -22,5 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Telgr"
 include(":app")
-include(":telgr_data")
-include(":telgr_model")
+include(":telgr-repo")

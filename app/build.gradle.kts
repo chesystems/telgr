@@ -63,7 +63,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(project(":telgr_data"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -74,5 +73,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.commons)
-    implementation(project(":telgr_model"))
+    implementation(project(":telgr-repo"))
 }

@@ -1,4 +1,4 @@
-package com.chesystems.telgr_model.model
+package com.chesystems.telgr_repo.model
 
 import android.util.Log
 import com.google.android.gms.tasks.Task

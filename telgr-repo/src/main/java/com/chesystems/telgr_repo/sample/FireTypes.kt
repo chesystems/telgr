@@ -1,4 +1,4 @@
-package com.chesystems.telgr_model.sample
+package com.chesystems.telgr_repo.sample
 
 /**
  * Constants for Firestore collections and fields

@@ -20,26 +20,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.chesystems.telgr.ui.theme.TelgrTheme
-import com.chesystems.telgr_model.sample.Message
-import com.chesystems.telgr_model.sample.ChatModel
+import com.chesystems.telgr_repo.sample.Message
+import com.chesystems.telgr_repo.sample.ChatModel
 import com.chesystems.uibits.EZIconButton
 import com.chesystems.uibits.EZInput
 import com.chesystems.uibits.RunOnce
-import com.chesystems.telgr_model.tool.NotificationMgr
+import com.chesystems.telgr_repo.tool.NotificationMgr
 
 class MainActivity : ComponentActivity() {
-    private val chatMo by viewModels<ChatModel>()
+    private val chatMo by viewModels<com.chesystems.telgr_repo.sample.ChatModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        NotificationMgr.initialize(this)
+        com.chesystems.telgr_repo.tool.NotificationMgr.initialize(this)
 
         enableEdgeToEdge()
         setContent {
             TelgrTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     RunOnce {
-                        chatMo.loadMessages("", NotificationMgr::showNotification)
+                        chatMo.loadMessages("", com.chesystems.telgr_repo.tool.NotificationMgr::showNotification)
                     }
 
                     val (input, setInput) = remember { mutableStateOf("") }
@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
                         EZInput(name = input, setName = setInput, label = "Input...") {
                             EZIconButton(Icons.AutoMirrored.Outlined.Send) {
                                 chatMo.sendMessage(
-                                    Message(
+                                    com.chesystems.telgr_repo.sample.Message(
                                         content = input
                                     )
                                 )

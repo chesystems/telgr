@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.chesystems.telgr_model"
+    namespace = "com.chesystems.telgr_repo"
     compileSdk = 34
 
     defaultConfig {

@@ -1,4 +1,4 @@
-package com.chesystems.telgr_model.tool
+package com.chesystems.telgr_repo.tool
 
 import android.Manifest
 import android.content.pm.PackageManager

@@ -1,6 +1,6 @@
-package com.chesystems.telgr_model.sample
+package com.chesystems.telgr_repo.sample
 
-import com.chesystems.telgr_model.model.BaseFirestoreRepository
+import com.chesystems.telgr_repo.model.BaseFirestoreRepository
 import com.google.android.gms.tasks.Task
 
 /**

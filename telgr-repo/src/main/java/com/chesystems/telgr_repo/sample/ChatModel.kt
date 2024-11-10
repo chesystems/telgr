@@ -1,4 +1,4 @@
-package com.chesystems.telgr_model.sample
+package com.chesystems.telgr_repo.sample
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
