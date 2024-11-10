@@ -13,10 +13,12 @@ class ChatViewModel : ViewModel() {
         private set
 
     fun loadMessages(groupId: String) {
-        chatRepository.getMessagesForGroup(groupId) { messagesList ->
-            messages.clear()
-            messages.addAll(messagesList)
-        }
+        chatRepository.getMessagesForGroup(groupId,
+            onDataAdded = { messages.clear(); messages.addAll(it) },
+            onDataModified = {
+                messages.addAll(it.filterNot { m -> m in messages })
+            },
+            onDataRemoved = { messages.clear() })
     }
 
     fun sendMessage(message: Message) {
@@ -27,14 +29,6 @@ class ChatViewModel : ViewModel() {
             .addOnFailureListener {
                 sendMessageStatus.value = false
             }
-    }
-
-    fun deleteMessage(messageId: String) {
-        chatRepository.deleteMessage(messageId)
-    }
-
-    fun updateMessageContent(messageId: String, newContent: String) {
-        chatRepository.updateMessageContent(messageId, newContent)
     }
 
     // Reset status after handling

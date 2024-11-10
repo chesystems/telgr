@@ -3,31 +3,23 @@ package com.chesystems.telgr_model
 import com.google.android.gms.tasks.Task
 
 class ChatRepository : BaseFirestoreRepository<Message>(
-    collectionPath = "messages",
+    collectionPath = FireCollection.MESSAGES.value,
     clazz = Message::class.java
 ) {
     fun getMessagesForGroup(
         groupId: String,
-        onMessagesLoaded: (List<Message>) -> Unit
+        onDataAdded: (List<Message>) -> Unit,
+        onDataModified: (List<Message>) -> Unit,
+        onDataRemoved: () -> Unit
     ) {
         startListening({ collection ->
             collection
-                .whereEqualTo("groupId", groupId)
-                //.orderBy("timestamp")
-        }, onMessagesLoaded)
+                .whereEqualTo(FireChatField.GROUP_ID.value, groupId)
+                .orderBy(FireChatField.TIMESTAMP.value)
+        }, onDataAdded, onDataModified, onDataRemoved)
     }
 
     fun sendMessage(message: Message): Task<Void> {
         return add(message)
-    }
-
-    fun deleteMessage(messageId: String): Task<Void> {
-        return delete(messageId)
-    }
-
-    fun updateMessageContent(messageId: String, newContent: String): Task<Void> {
-        return update(messageId, mapOf(
-            "content" to newContent
-        ))
     }
 }

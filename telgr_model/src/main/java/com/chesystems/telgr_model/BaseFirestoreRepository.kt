@@ -3,6 +3,7 @@ package com.chesystems.telgr_model
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentChange.Type.*
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -22,8 +23,10 @@ abstract class BaseFirestoreRepository<T: Any>(
         get() = db.collection(collectionPath)
 
     open fun startListening(
-        queryBuilder: (CollectionReference) -> com.google.firebase.firestore.Query = { it },
-        onDataChange: (List<T>) -> Unit
+        queryBuilder: (CollectionReference) -> Query = { it },
+        onDataAdded: (List<T>) -> Unit,
+        onDataModified: (List<T>) -> Unit,
+        onDataRemoved: () -> Unit
     ) {
         listenerRegistration?.remove()
         
@@ -36,7 +39,15 @@ abstract class BaseFirestoreRepository<T: Any>(
             
             snapshot?.documents?.mapNotNull {
                 it.toObject(clazz)
-            }?.let(onDataChange)
+            }?.let {
+                for (dc in snapshot.documentChanges) {
+                    when (dc.type) {
+                        ADDED -> onDataAdded(it)
+                        MODIFIED -> onDataModified(it)
+                        REMOVED -> onDataRemoved()
+                    }
+                }
+            }
         }
     }
 

@@ -19,13 +19,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import com.chesystems.telgr.ui.theme.TelgrTheme
-import com.chesystems.telgr_model.ChatRepository
 import com.chesystems.telgr_model.ChatViewModel
 import com.chesystems.telgr_model.Message
-import com.chesystems.telgr_model.old.ChatRoom
-import com.chesystems.telgr_model.old.ChatVM
 import com.chesystems.uibits.EZIconButton
 import com.chesystems.uibits.EZInput
 import com.chesystems.uibits.RunOnce
