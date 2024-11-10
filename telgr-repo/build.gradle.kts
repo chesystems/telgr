@@ -57,7 +57,7 @@ publishing {
     publications {
         register<MavenPublication>("release") {
             groupId = "com.github.chesystems"
-            artifactId = "telgr_repo"
+            artifactId = "telgr-repo"
             version = "1.0"
 
             afterEvaluate {
