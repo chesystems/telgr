@@ -4,6 +4,31 @@ import com.chesystems.telgr_repo.model.BaseFirestoreRepository
 import com.google.android.gms.tasks.Task
 
 /**
+ * Constants for Firestore collections and fields
+ */
+internal object FireTypes {
+    /**
+     * Firestore collection paths
+     */
+    enum class Collection(val value: String) {
+        MESSAGES("messages")
+    }
+
+    /**
+     * Firestore field names
+     */
+    object Field {
+        /**
+         * Chat document fields
+         */
+        enum class Chat(val value: String) {
+            GROUP_ID("groupId"),
+            TIMESTAMP("timestamp")
+        }
+    }
+}
+
+/**
  * Repository for managing chat messages in Firestore.
  * Extends BaseFirestoreRepository for basic CRUD operations.
  */
