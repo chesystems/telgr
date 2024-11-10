@@ -20,14 +20,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.chesystems.telgr.ui.theme.TelgrTheme
-import com.chesystems.telgr_model.ChatViewModel
-import com.chesystems.telgr_model.Message
+import com.chesystems.telgr_data.Message
+import com.chesystems.telgr_model.sample.ChatModel
 import com.chesystems.uibits.EZIconButton
 import com.chesystems.uibits.EZInput
 import com.chesystems.uibits.RunOnce
 
 class MainActivity : ComponentActivity() {
-    private val chatMo by viewModels<ChatViewModel>()
+    private val chatMo by viewModels<ChatModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +43,8 @@ class MainActivity : ComponentActivity() {
                     val (input, setInput) = remember { mutableStateOf("") }
                     Column(modifier = Modifier.padding(innerPadding)) {
                         LazyColumn(
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
+                            contentPadding = innerPadding
                         ) {
                             items(chatMo.messages) {
                                 Text(text = it.content)
@@ -51,9 +52,11 @@ class MainActivity : ComponentActivity() {
                         }
                         EZInput(name = input, setName = setInput, label = "Input...") {
                             EZIconButton(Icons.AutoMirrored.Outlined.Send) {
-                                chatMo.sendMessage(Message(
-                                    content = input
-                                ))
+                                chatMo.sendMessage(
+                                    Message(
+                                        content = input
+                                    )
+                                )
                                 setInput("")
                             }
                         }
@@ -64,18 +67,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     TelgrTheme {
-        Greeting("Android")
+
     }
 }

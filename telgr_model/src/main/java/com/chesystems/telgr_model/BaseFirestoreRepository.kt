@@ -1,9 +1,9 @@
 package com.chesystems.telgr_model
 
 import android.util.Log
+import com.chesystems.telgr_data.FirestoreModel
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentChange.Type.*
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -12,9 +12,9 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-abstract class BaseFirestoreRepository<T: Any>(
+abstract class BaseFirestoreRepository<T: FirestoreModel>(
     protected val collectionPath: String,
-    protected val clazz: Class<T>
+    protected val typeClass: Class<T>
 ) {
     private val db: FirebaseFirestore = Firebase.firestore
     private var listenerRegistration: ListenerRegistration? = null
@@ -24,9 +24,9 @@ abstract class BaseFirestoreRepository<T: Any>(
 
     open fun startListening(
         queryBuilder: (CollectionReference) -> Query = { it },
-        onDataAdded: (List<T>) -> Unit,
-        onDataModified: (List<T>) -> Unit,
-        onDataRemoved: () -> Unit
+        onAdded: (T) -> Unit,
+        onModified: (T) -> Unit,
+        onRemoved: (String) -> Unit
     ) {
         listenerRegistration?.remove()
         
@@ -37,15 +37,11 @@ abstract class BaseFirestoreRepository<T: Any>(
                 return@addSnapshotListener
             }
             
-            snapshot?.documents?.mapNotNull {
-                it.toObject(clazz)
-            }?.let {
-                for (dc in snapshot.documentChanges) {
-                    when (dc.type) {
-                        ADDED -> onDataAdded(it)
-                        MODIFIED -> onDataModified(it)
-                        REMOVED -> onDataRemoved()
-                    }
+            snapshot?.documentChanges?.forEach { change ->
+                when (change.type) {
+                    ADDED -> change.document.toObject(typeClass)?.let(onAdded)
+                    MODIFIED -> change.document.toObject(typeClass)?.let(onModified)
+                    REMOVED -> onRemoved(change.document.id)
                 }
             }
         }

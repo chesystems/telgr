@@ -1,7 +1,4 @@
-package com.chesystems.telgr_model
-
-typealias FireCollection = FireTypes.Collection
-typealias FireChatField = FireTypes.Field.Chat
+package com.chesystems.telgr_model.sample
 
 object FireTypes {
     /***/
