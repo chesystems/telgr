@@ -20,26 +20,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.chesystems.telgr.ui.theme.TelgrTheme
-import com.chesystems.telgr_repo.sample.Message
-import com.chesystems.telgr_repo.sample.ChatModel
+import com.chesystems.telgr_repo.tool.NotificationMgr
 import com.chesystems.uibits.EZIconButton
 import com.chesystems.uibits.EZInput
 import com.chesystems.uibits.RunOnce
-import com.chesystems.telgr_repo.tool.NotificationMgr
 
 class MainActivity : ComponentActivity() {
     private val chatMo by viewModels<com.chesystems.telgr_repo.sample.ChatModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        com.chesystems.telgr_repo.tool.NotificationMgr.initialize(this)
+        NotificationMgr.initialize(this)
 
         enableEdgeToEdge()
         setContent {
             TelgrTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     RunOnce {
-                        chatMo.loadMessages("", com.chesystems.telgr_repo.tool.NotificationMgr::showNotification)
+                        chatMo.loadMessages("", NotificationMgr::showNotification)
                     }
 
                     val (input, setInput) = remember { mutableStateOf("") }

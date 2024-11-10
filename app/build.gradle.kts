@@ -73,5 +73,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.commons)
-    implementation(project(":telgr-repo"))
+    //implementation(project(":telgr-repo"))
+    implementation("com.github.chesystems:telgr:1.0.02")
 }

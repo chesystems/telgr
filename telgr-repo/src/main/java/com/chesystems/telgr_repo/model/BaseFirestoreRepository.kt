@@ -3,7 +3,9 @@ package com.chesystems.telgr_repo.model
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentChange.Type.*
+import com.google.firebase.firestore.DocumentChange.Type.ADDED
+import com.google.firebase.firestore.DocumentChange.Type.MODIFIED
+import com.google.firebase.firestore.DocumentChange.Type.REMOVED
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
