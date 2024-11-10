@@ -19,10 +19,11 @@ class ChatModel : ViewModel() {
     /**
      * Loads and observes messages for a specific group
      */
-    fun loadMessages(groupId: String) {
+    fun loadMessages(groupId: String, showNotification: (Int, String, String) -> Unit) {
         chatRepository.getMessagesForGroup(groupId,
             onMessageAdded = { message -> 
                 messages.add(message)
+                showNotification(1, message.groupId, message.content)
             },
             onMessageModified = { message ->
                 val index = messages.indexOfFirst { it.id == message.id }
