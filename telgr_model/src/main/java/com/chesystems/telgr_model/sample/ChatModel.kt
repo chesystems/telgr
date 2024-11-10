@@ -5,12 +5,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.chesystems.telgr_data.Message
 
+/**
+ * ViewModel for managing chat messages and their states
+ */
 class ChatModel : ViewModel() {
     private val chatRepository = ChatRepository()
 
+    // Observable list of messages
     val messages = mutableStateListOf<Message>()
+    // Tracks success/failure of message sending
     private var sendMessageStatus = mutableStateOf<Boolean?>(null)
 
+    /**
+     * Loads and observes messages for a specific group
+     */
     fun loadMessages(groupId: String) {
         chatRepository.getMessagesForGroup(groupId,
             onMessageAdded = { message -> 
@@ -28,6 +36,9 @@ class ChatModel : ViewModel() {
         )
     }
 
+    /**
+     * Sends a new message and updates status
+     */
     fun sendMessage(message: Message) {
         chatRepository.sendMessage(message)
             .addOnSuccessListener {
@@ -38,12 +49,16 @@ class ChatModel : ViewModel() {
             }
     }
 
-    // Reset status after handling
+    /**
+     * Resets send message status after handling
+     */
     fun resetSendMessageStatus() { sendMessageStatus.value = null }
 
+    /**
+     * Cleanup when ViewModel is cleared
+     */
     override fun onCleared() {
         super.onCleared()
         chatRepository.stopListening()
     }
 }
-

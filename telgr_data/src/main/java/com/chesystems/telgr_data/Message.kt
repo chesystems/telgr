@@ -1,5 +1,10 @@
 package com.chesystems.telgr_data
 
+/**
+ * Represents a message in the chat system.
+ * Implements FirestoreModel for database storage.
+ * Contains message content, metadata and type information.
+ */
 data class Message(
     override val id: String = "",  // Firestore document ID
     override val timestamp: Long = System.currentTimeMillis(),

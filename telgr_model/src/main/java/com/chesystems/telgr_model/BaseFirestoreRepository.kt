@@ -12,6 +12,13 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+/**
+ * Base repository class for Firestore operations.
+ * Provides common CRUD operations and real-time updates for Firestore documents.
+ * @param T The model type that implements FirestoreModel
+ * @param collectionPath The Firestore collection path
+ * @param typeClass The class object of type T for deserialization
+ */
 abstract class BaseFirestoreRepository<T: FirestoreModel>(
     protected val collectionPath: String,
     protected val typeClass: Class<T>
@@ -22,6 +29,13 @@ abstract class BaseFirestoreRepository<T: FirestoreModel>(
     private val collection: CollectionReference
         get() = db.collection(collectionPath)
 
+    /**
+     * Starts real-time listening for collection changes.
+     * @param queryBuilder Optional query modifier
+     * @param onAdded Callback for document additions
+     * @param onModified Callback for document modifications
+     * @param onRemoved Callback for document deletions
+     */
     open fun startListening(
         queryBuilder: (CollectionReference) -> Query = { it },
         onAdded: (T) -> Unit,
@@ -47,11 +61,20 @@ abstract class BaseFirestoreRepository<T: FirestoreModel>(
         }
     }
 
+    /**
+     * Stops listening to collection changes and cleans up resources
+     */
     open fun stopListening() {
         listenerRegistration?.remove()
         listenerRegistration = null
     }
 
+    /**
+     * Adds a new document to the collection
+     * @param item The item to add
+     * @param documentId Optional custom document ID
+     * @return Task representing the operation
+     */
     open fun add(item: T, documentId: String? = null): Task<Void> {
         return if (documentId != null) {
             collection.document(documentId).set(item)
@@ -60,18 +83,39 @@ abstract class BaseFirestoreRepository<T: FirestoreModel>(
         }
     }
 
+    /**
+     * Updates an existing document
+     * @param documentId ID of document to update
+     * @param updates Map of field updates
+     * @return Task representing the operation
+     */
     open fun update(documentId: String, updates: Map<String, Any>): Task<Void> {
         return collection.document(documentId).update(updates)
     }
 
+    /**
+     * Deletes a document from the collection
+     * @param documentId ID of document to delete
+     * @return Task representing the operation
+     */
     open fun delete(documentId: String): Task<Void> {
         return collection.document(documentId).delete()
     }
 
+    /**
+     * Retrieves a document by its ID
+     * @param documentId ID of document to retrieve
+     * @return Task containing the document snapshot
+     */
     open fun getById(documentId: String): Task<DocumentSnapshot> {
         return collection.document(documentId).get()
     }
 
+    /**
+     * Handles repository errors
+     * Override this method to implement custom error handling
+     * @param error The exception that occurred
+     */
     protected open fun onError(error: Exception) {
         // Override this to handle errors
         Log.e("FirestoreRepository", "Error: ${error.message}", error)
