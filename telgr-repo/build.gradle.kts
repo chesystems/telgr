@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.chesystems.telgr_repo"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 27
