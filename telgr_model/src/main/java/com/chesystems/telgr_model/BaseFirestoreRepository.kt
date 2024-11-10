@@ -1,12 +1,13 @@
 package com.chesystems.telgr_model
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentChange.Type.*
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -33,7 +34,7 @@ abstract class BaseFirestoreRepository<T: Any>(
                 return@addSnapshotListener
             }
             
-            snapshot?.documents?.mapNotNull { 
+            snapshot?.documents?.mapNotNull {
                 it.toObject(clazz)
             }?.let(onDataChange)
         }

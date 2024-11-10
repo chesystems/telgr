@@ -13,7 +13,7 @@ class ChatRepository : BaseFirestoreRepository<Message>(
         startListening({ collection ->
             collection
                 .whereEqualTo("groupId", groupId)
-                .orderBy("timestamp")
+                //.orderBy("timestamp")
         }, onMessagesLoaded)
     }
 

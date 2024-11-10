@@ -5,18 +5,33 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Send
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import com.chesystems.telgr.ui.theme.TelgrTheme
 import com.chesystems.telgr_model.ChatRepository
 import com.chesystems.telgr_model.ChatViewModel
+import com.chesystems.telgr_model.Message
+import com.chesystems.telgr_model.old.ChatRoom
+import com.chesystems.telgr_model.old.ChatVM
+import com.chesystems.uibits.EZIconButton
+import com.chesystems.uibits.EZInput
+import com.chesystems.uibits.RunOnce
 
 class MainActivity : ComponentActivity() {
+    private val chatMo by viewModels<ChatViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +40,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             TelgrTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    RunOnce {
+                        chatMo.loadMessages("")
+                    }
+
+                    val (input, setInput) = remember { mutableStateOf("") }
+                    Column(modifier = Modifier.padding(innerPadding)) {
+                        LazyColumn(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            items(chatMo.messages) {
+                                Text(text = it.content)
+                            }
+                        }
+                        EZInput(name = input, setName = setInput, label = "Input...") {
+                            EZIconButton(Icons.AutoMirrored.Outlined.Send) {
+                                chatMo.sendMessage(Message(
+                                    content = input
+                                ))
+                                setInput("")
+                            }
+                        }
+                    }
                 }
             }
         }
