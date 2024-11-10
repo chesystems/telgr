@@ -1,4 +1,6 @@
-package com.chesystems.telgr_data
+package com.chesystems.telgr_data.sample
+
+import com.chesystems.telgr_data.FirestoreModel
 
 /**
  * Represents a message in the chat system.

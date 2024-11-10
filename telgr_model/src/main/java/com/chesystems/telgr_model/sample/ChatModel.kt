@@ -3,7 +3,7 @@ package com.chesystems.telgr_model.sample
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.chesystems.telgr_data.Message
+import com.chesystems.telgr_data.sample.Message
 
 /**
  * ViewModel for managing chat messages and their states

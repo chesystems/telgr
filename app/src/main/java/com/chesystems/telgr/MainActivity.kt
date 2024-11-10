@@ -20,7 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.chesystems.telgr.ui.theme.TelgrTheme
-import com.chesystems.telgr_data.Message
+import com.chesystems.telgr_data.sample.Message
 import com.chesystems.telgr_model.sample.ChatModel
 import com.chesystems.uibits.EZIconButton
 import com.chesystems.uibits.EZInput
