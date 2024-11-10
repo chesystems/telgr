@@ -1,4 +1,4 @@
-package com.chesystems.telgr_model
+package com.chesystems.telgr_model.tool
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

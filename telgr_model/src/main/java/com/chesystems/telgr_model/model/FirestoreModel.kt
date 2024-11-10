@@ -1,4 +1,4 @@
-package com.chesystems.telgr_data
+package com.chesystems.telgr_model.model
 
 /**
  * Base interface for Firestore document models.

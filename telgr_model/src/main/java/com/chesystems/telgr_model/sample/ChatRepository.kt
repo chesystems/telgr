@@ -1,7 +1,6 @@
 package com.chesystems.telgr_model.sample
 
-import com.chesystems.telgr_model.BaseFirestoreRepository
-import com.chesystems.telgr_data.sample.Message
+import com.chesystems.telgr_model.model.BaseFirestoreRepository
 import com.google.android.gms.tasks.Task
 
 /**

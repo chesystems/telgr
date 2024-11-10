@@ -20,27 +20,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.chesystems.telgr.ui.theme.TelgrTheme
-import com.chesystems.telgr_data.sample.Message
-import com.chesystems.telgr_model.NotificationHelper
+import com.chesystems.telgr_model.sample.Message
 import com.chesystems.telgr_model.sample.ChatModel
 import com.chesystems.uibits.EZIconButton
 import com.chesystems.uibits.EZInput
 import com.chesystems.uibits.RunOnce
-import android.os.Build
-import android.Manifest  // For permission checking
-import android.content.pm.PackageManager
-import androidx.core.content.ContextCompat  // For permission checking
-import androidx.core.app.ActivityCompat  // For requesting permissions
+import com.chesystems.telgr_model.tool.NotificationMgr
 
 class MainActivity : ComponentActivity() {
     private val chatMo by viewModels<ChatModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-
         NotificationMgr.initialize(this)
 
+        enableEdgeToEdge()
         setContent {
             TelgrTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -72,43 +66,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-object NotificationMgr {
-    private var notificationHelper: NotificationHelper? = null
-
-    fun initialize(activity: MainActivity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    activity,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // Request permission
-                ActivityCompat.requestPermissions(
-                    activity,
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    1
-                )
-            }
-        }
-
-        if (notificationHelper == null) {
-            notificationHelper = NotificationHelper(activity.applicationContext)
-        }
-    }
-
-    fun showNotification(
-        notificationId: Int,
-        title: String,
-        message: String
-    ) {
-        notificationHelper?.showNotification(
-            notificationId = notificationId,
-            title = title,
-            message = message
-        )
     }
 }
 
