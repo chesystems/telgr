@@ -30,8 +30,8 @@ class ChatModel : ViewModel() {
                     messages[index] = message
                 }
             },
-            onMessageRemoved = { messageId ->
-                messages.removeAll { it.id == messageId }
+            onMessageRemoved = { message ->
+                messages.removeAll { it.id == message.id }
             }
         )
     }

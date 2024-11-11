@@ -44,7 +44,7 @@ class ChatRepository : BaseFirestoreRepository<Message>(
         groupId: String,
         onMessageAdded: (Message) -> Unit,
         onMessageModified: (Message) -> Unit,
-        onMessageRemoved: (String) -> Unit
+        onMessageRemoved: (Message) -> Unit
     ) {
         startListening({ collection ->
             collection
