@@ -41,7 +41,7 @@ abstract class BaseFirestoreRepository<T: FirestoreModel>(
         queryBuilder: (CollectionReference) -> Query = { it },
         onAdded: (T) -> Unit,
         onModified: (T) -> Unit,
-        onRemoved: (String) -> Unit
+        onRemoved: (T) -> Unit
     ) {
         listenerRegistration?.remove()
         
@@ -54,9 +54,9 @@ abstract class BaseFirestoreRepository<T: FirestoreModel>(
             
             snapshot?.documentChanges?.forEach { change ->
                 when (change.type) {
-                    ADDED -> change.document.toObject(typeClass)?.let(onAdded)
-                    MODIFIED -> change.document.toObject(typeClass)?.let(onModified)
-                    REMOVED -> onRemoved(change.document.id)
+                    ADDED -> change.document.toObject(typeClass).let(onAdded)
+                    MODIFIED -> change.document.toObject(typeClass).let(onModified)
+                    REMOVED -> change.document.toObject(typeClass).let(onRemoved)
                 }
             }
         }
